@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="../MisticVault.Core/MisticVault.Core.csproj" />
+  <Project Path="../MisticVault.Infrastructure/MisticVault.Infrastructure.csproj" />
+  <Project Path="../MisticVault.Tests/MisticVault.Tests.csproj" />
+  <Project Path="MisticVault.Api.csproj" />
+</Solution>

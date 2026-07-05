@@ -1,0 +1,32 @@
+## Core .NET Build Artifacts
+bin/
+obj/
+
+## Ideal for Rider, Visual Studio, and VS Code
+.vs/
+.idea/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+## VS Code Specific
+.vscode/
+!.vscode/extensions.json
+
+## Local Configuration and Secrets
+*.json.user
+appsettings.Development.json
+appsettings.Local.json
+secrets.json
+
+## User-Specific Enterprise Library Config
+*.config.user
+
+## Node/Frontend dependencies (if using SPA templates like React/Angular)
+node_modules/
+dist/
+
+## Operating System Files
+Thumbs.db
+.DS_Store
