@@ -32,12 +32,12 @@ jobs:
 
     # Step D: Download all your NuGet packages (like EntityFrameworkCore, AutoMapper)
     - name: Download Packages
-      run: dotnet restore
+      run: dotnet restore MisticVault.Api/MisticVault.Api.csproj
 
     # Step E: Compile the code and treat warnings as errors to enforce clean structure
     - name: Compile and Verify Code Style
-      run: dotnet build --configuration Release --no-restore /p:TreatWarningsAsErrors=true
+      run: dotnet build MisticVault.Api/MisticVault.Api.csproj --configuration Release --no-restore /p:TreatWarningsAsErrors=true
 
     # Step F: Automatically discover and run your unit test projects
     - name: Run Automated Tests
-      run: dotnet test --configuration Release --no-build
+      run: dotnet test MisticVault.Tests/MisticVault.Tests.csproj --configuration Release --no-build
