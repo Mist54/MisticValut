@@ -40,4 +40,4 @@ jobs:
 
     # Step F: Automatically discover and run your unit test projects
     - name: Run Automated Tests
-      run: dotnet test MisticVault.Tests/MisticVault.Tests.csproj --configuration Release --no-build
+      run: dotnet test MisticVault.Tests/MisticVault.Tests.csproj --configuration Release 
