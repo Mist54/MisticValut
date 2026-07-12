@@ -25,4 +25,4 @@ jobs:
 
     # 3. Check the commit message (Must start with feat:, fix:, etc.)
     - name: Check Commit Message Style
-      uses: commitlint-action/commitlint-action@v1
+      uses: wagoid/commitlint-github-action@v5
