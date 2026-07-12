@@ -25,6 +25,4 @@ jobs:
 
     # 3. Check the commit message (Must start with feat:, fix:, etc.)
     - name: Check Commit Message Style
-      uses: gsweene2/commitlint-action@v1.0.3
-      with:
-        default_checker: true
+      uses: commitlint-action/commitlint-action@v1
