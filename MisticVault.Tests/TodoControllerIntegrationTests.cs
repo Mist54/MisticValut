@@ -25,6 +25,8 @@ namespace MisticVault.Tests
         [Fact]
         public async Task PostAndGetTodo_Works()
         {
+            var dbName = Guid.NewGuid().ToString(); // Unique DB per test
+
             var clientFactory = _factory.WithWebHostBuilder(builder =>
             {
                 builder.ConfigureServices(services =>
@@ -33,7 +35,7 @@ namespace MisticVault.Tests
                     if (descriptor != null) services.Remove(descriptor);
 
                     services.AddDbContext<MisticVaultDbContext>(options =>
-                        options.UseInMemoryDatabase("IntegrationTestDb"));
+                        options.UseInMemoryDatabase(dbName));
                 });
             });
 
@@ -45,7 +47,6 @@ namespace MisticVault.Tests
             {
                 var db = scope.ServiceProvider.GetRequiredService<MisticVaultDbContext>();
 
-                // Remove EnsureCreatedAsync - just add the entity directly
                 var category = new MisticVault.Core.Todo.Entities.TodoCategory
                 {
                     Id = categoryId,
