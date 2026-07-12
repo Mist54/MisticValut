@@ -39,23 +39,34 @@ namespace MisticVault.Tests
 
             var client = clientFactory.CreateClient();
 
-            // create category first
-            var category = new { Id = Guid.NewGuid(), Name = "Cat1", Description = "d", Color = "#FFF" };
-            // insert category directly via scope
+            // Create category first
+            var categoryId = Guid.NewGuid();
             using (var scope = clientFactory.Services.CreateScope())
             {
                 var db = scope.ServiceProvider.GetRequiredService<MisticVaultDbContext>();
-                db.Set<MisticVault.Core.Todo.Entities.TodoCategory>().Add(new MisticVault.Core.Todo.Entities.TodoCategory
+
+                // Ensure the database is created
+                await db.Database.EnsureCreatedAsync();
+
+                var category = new MisticVault.Core.Todo.Entities.TodoCategory
                 {
-                    Id = (Guid)category.Id,
+                    Id = categoryId,
                     Name = "Cat1",
                     Description = "d",
                     Color = "#FFF"
-                });
+                };
+                db.Add(category);  // Use db.Add() instead of db.Set<>().Add()
                 await db.SaveChangesAsync();
             }
 
-            var create = new CreateTodoRequestDTO { Title = "IT-1", Description = "desc", Priority = MisticVault.Core.Todo.Enums.TodoEnums.TodoPriority.Low, CategoryId = (Guid)category.Id };
+            var create = new CreateTodoRequestDTO
+            {
+                Title = "IT-1",
+                Description = "desc",
+                Priority = MisticVault.Core.Todo.Enums.TodoEnums.TodoPriority.Low,
+                CategoryId = categoryId
+            };
+
             var resp = await client.PostAsJsonAsync("/api/todo", create);
             resp.EnsureSuccessStatusCode();
 
@@ -64,7 +75,8 @@ namespace MisticVault.Tests
             Assert.Equal("IT-1", created!.Title);
 
             var get = await client.GetFromJsonAsync<TodoResponseDTO[]>($"/api/todo");
-            Assert.Contains(get!, t => t.Id == created.Id);
+            Assert.NotNull(get);  // Add null check
+            Assert.Contains(get, t => t.Id == created.Id);
         }
     }
 }
