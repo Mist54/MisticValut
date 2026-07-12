@@ -45,9 +45,7 @@ namespace MisticVault.Tests
             {
                 var db = scope.ServiceProvider.GetRequiredService<MisticVaultDbContext>();
 
-                // Ensure the database is created
-                await db.Database.EnsureCreatedAsync();
-
+                // Remove EnsureCreatedAsync - just add the entity directly
                 var category = new MisticVault.Core.Todo.Entities.TodoCategory
                 {
                     Id = categoryId,
@@ -55,7 +53,7 @@ namespace MisticVault.Tests
                     Description = "d",
                     Color = "#FFF"
                 };
-                db.Add(category);  // Use db.Add() instead of db.Set<>().Add()
+                db.Add(category);
                 await db.SaveChangesAsync();
             }
 
@@ -75,7 +73,7 @@ namespace MisticVault.Tests
             Assert.Equal("IT-1", created!.Title);
 
             var get = await client.GetFromJsonAsync<TodoResponseDTO[]>($"/api/todo");
-            Assert.NotNull(get);  // Add null check
+            Assert.NotNull(get);
             Assert.Contains(get, t => t.Id == created.Id);
         }
     }
