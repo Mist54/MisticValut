@@ -1,6 +1,9 @@
-using MisticVault.Core.Todo.DTOs.Todo;
+using MisticVault.Application.Todo.DTOs.Todo;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
-namespace MisticVault.Core.Todo.Interfaces
+namespace MisticVault.Application.Todo.Interfaces
 {
     public interface ITodoService
     {

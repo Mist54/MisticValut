@@ -10,6 +10,7 @@ namespace MisticVault.Infrastructure.Data
         {
         }
 
+        //Setting up the tables for the entities
         public DbSet<Todo> Todos => Set<Todo>();
         public DbSet<TodoCategory> TodoCategories => Set<TodoCategory>();
 

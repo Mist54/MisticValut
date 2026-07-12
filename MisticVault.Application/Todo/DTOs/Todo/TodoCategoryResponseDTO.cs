@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace MisticVault.Core.Todo.DTOs.Todo
+namespace MisticVault.Application.Todo.DTOs.Todo
 {
     public class TodoCategoryResponseDTO
     {

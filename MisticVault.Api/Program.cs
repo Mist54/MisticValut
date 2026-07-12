@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using MisticVault.Infrastructure.Data;
+using AutoMapper;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -11,6 +13,11 @@ builder.Services.AddControllers();
 
 // Use SQL Server for production and register DbContext --> developer/production environment should have a valid connection string in appsettings.json
 builder.Services.AddDbContext<MisticVaultDbContext>(options =>options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+// Register application repositories and services
+builder.Services.AddScoped<MisticVault.Application.Todo.Interfaces.ITodoRepository, MisticVault.Infrastructure.Repositories.TodoRepository>();
+builder.Services.AddScoped<MisticVault.Application.Todo.Interfaces.ITodoService, MisticVault.Infrastructure.Services.TodoService>();
+// Register AutoMapper profiles from Application assembly
+builder.Services.AddAutoMapper(typeof(MisticVault.Application.Todo.Mappings.TodoProfile).Assembly);
 
 
 var app = builder.Build();
@@ -26,3 +33,6 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+// Partial Program class required for WebApplicationFactory in integration tests
+public partial class Program { }
