@@ -7,9 +7,9 @@ using System.Text;
 
 namespace MisticVault.Infrastructure.Configuration
 {
-    public class TodoConfiguration : IEntityTypeConfiguration<MisticVault.Core.Todo.Entities.Todo>
+    public class TodoConfiguration : IEntityTypeConfiguration<Todo>
     {
-        public void Configure(EntityTypeBuilder<MisticVault.Core.Todo.Entities.Todo> builder)
+        public void Configure(EntityTypeBuilder<Todo> builder)
         {
             builder.HasKey(t => t.Id);
             builder.Property(t => t.Title).IsRequired().HasMaxLength(200);

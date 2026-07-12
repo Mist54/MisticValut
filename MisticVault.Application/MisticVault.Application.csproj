@@ -7,7 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Todo\Interfaces\" />
+    <ProjectReference Include="..\MisticVault.Core\MisticVault.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Todo\Mappings\" />
+    <Folder Include="Todo\Validators\" />
   </ItemGroup>
 
 </Project>

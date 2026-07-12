@@ -1,5 +1,6 @@
 <Solution>
-  <Project Path="../MisticVault.Core/MisticVault.Core.csproj" />
+  <Project Path="../MisticVault.Application/MisticVault.Application.csproj" Id="11f8c4a5-fd4b-45d5-abba-cab434a3b52d" />
+  <Project Path="../MisticVault.Core/MisticVault.Domain.csproj" />
   <Project Path="../MisticVault.Infrastructure/MisticVault.Infrastructure.csproj" />
   <Project Path="../MisticVault.Tests/MisticVault.Tests.csproj" />
   <Project Path="MisticVault.Api.csproj" />

@@ -16,7 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MisticVault.Api\MisticVault.Api.csproj" />
-    <ProjectReference Include="..\MisticVault.Core\MisticVault.Core.csproj" />
+    <ProjectReference Include="..\MisticVault.Core\MisticVault.Domain.csproj" />
     <ProjectReference Include="..\MisticVault.Infrastructure\MisticVault.Infrastructure.csproj" />
   </ItemGroup>
 
