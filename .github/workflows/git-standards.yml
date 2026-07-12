@@ -1,0 +1,30 @@
+name: Git Standards Validation
+
+# Run this check whenever someone opens a Pull Request to the main branch
+on:
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  validate-git-rules:
+    runs-on: ubuntu-latest
+
+    steps:
+    # 1. Pull down the code history
+    - name: Get Code From GitHub
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0 # Fetches all history so it can read commit messages
+
+    # 2. Check the branch name (Must start with feat/, fix/, chore/, etc.)
+    - name: Check Branch Name Style
+      uses: deepakputhraya/action-branch-name@v1.0.0
+      with:
+        regex: '^(feat|fix|chore|refactor|docs|style)\/.*'
+        allowed_prefixes: 'feat/,fix/,chore/,refactor/,docs/,style/'
+
+    # 3. Check the commit message (Must start with feat:, fix:, etc.)
+    - name: Check Commit Message Style
+      uses: gsweene2/commitlint-action@v1.0.3
+      with:
+        default_checker: true
