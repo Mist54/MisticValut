@@ -1,0 +1,36 @@
+name: My First .NET Core Automation
+
+# 1. When should this run?
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  check-build-and-test:
+    # Use a clean virtual Linux environment provided by GitHub
+    runs-on: ubuntu-latest
+
+    steps:
+    # Step A: Copy your project files onto the virtual machine
+    - name: Get Code From GitHub
+      uses: actions/checkout@v4
+
+    # Step B: Install the exact .NET 10 environment your project requires
+    - name: Install .NET Setup
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '10.0.x'
+
+    # Step C: Download all your NuGet packages (like EntityFrameworkCore, AutoMapper)
+    - name: Download Packages
+      run: dotnet restore
+
+    # Step D: Compile the code and treat warnings as errors to enforce clean structure
+    - name: Compile and Verify Code Style
+      run: dotnet build --configuration Release --no-restore /p:TreatWarningsAsErrors=true
+
+    # Step E: Automatically discover and run your unit test projects
+    - name: Run Automated Tests
+      run: dotnet test --configuration Release --no-build
