@@ -2,6 +2,8 @@ using Microsoft.EntityFrameworkCore;
 using MisticVault.Infrastructure.Data;
 using AutoMapper;
 
+// <summary>
+// The main entry point of the application.
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
