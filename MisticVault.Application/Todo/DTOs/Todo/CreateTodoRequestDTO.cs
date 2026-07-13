@@ -5,6 +5,9 @@ using System.Text;
 
 namespace MisticVault.Application.Todo.DTOs.Todo
 {
+    /// <summary>
+    /// DTO for creating a new Todo item.
+    /// </summary>
     public class CreateTodoRequestDTO
     {
         public string Title { get; set; } = string.Empty;
