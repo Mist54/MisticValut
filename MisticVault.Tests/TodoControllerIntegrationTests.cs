@@ -3,6 +3,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -25,27 +26,35 @@ namespace MisticVault.Tests
         [Fact]
         public async Task PostAndGetTodo_Works()
         {
-            var clientFactory = _factory.WithWebHostBuilder(builder =>
+            var dbName = Guid.NewGuid().ToString(); // Unique DB per test
+
+            var factory = _factory.WithWebHostBuilder(builder =>
             {
+                builder.UseEnvironment("Testing");
                 builder.ConfigureServices(services =>
                 {
-                    var descriptor = services.SingleOrDefault(d => d.ServiceType == typeof(DbContextOptions<MisticVaultDbContext>));
-                    if (descriptor != null) services.Remove(descriptor);
+                    // Remove existing DbContext registrations
+                    var descriptors = services.Where(d => d.ServiceType == typeof(DbContextOptions<MisticVaultDbContext>) || d.ServiceType == typeof(MisticVaultDbContext)).ToList();
+                    foreach (var d in descriptors) services.Remove(d);
+
+                    // Register in-memory DbContext for testing using a dedicated EF service provider
+                    var efServiceProvider = new ServiceCollection()
+                        .AddEntityFrameworkInMemoryDatabase()
+                        .BuildServiceProvider();
 
                     services.AddDbContext<MisticVaultDbContext>(options =>
-                        options.UseInMemoryDatabase("IntegrationTestDb"));
+                        options.UseInMemoryDatabase(dbName)
+                               .UseInternalServiceProvider(efServiceProvider));
                 });
             });
 
-            var client = clientFactory.CreateClient();
-
-            // Create category first
+            // Seed DB before creating client so server sees seeded data
             var categoryId = Guid.NewGuid();
-            using (var scope = clientFactory.Services.CreateScope())
+            using (var scope = factory.Services.CreateScope())
             {
                 var db = scope.ServiceProvider.GetRequiredService<MisticVaultDbContext>();
+                await db.Database.EnsureCreatedAsync();
 
-                // Remove EnsureCreatedAsync - just add the entity directly
                 var category = new MisticVault.Core.Todo.Entities.TodoCategory
                 {
                     Id = categoryId,
@@ -53,9 +62,11 @@ namespace MisticVault.Tests
                     Description = "d",
                     Color = "#FFF"
                 };
-                db.Add(category);
+                db.TodoCategories.Add(category);
                 await db.SaveChangesAsync();
             }
+
+            var client = factory.CreateClient();
 
             var create = new CreateTodoRequestDTO
             {
