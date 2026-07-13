@@ -1,0 +1,32 @@
+name: Continuous Delivery Simulation
+
+# Run this only when code is pushed or merged directly into the main branch
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  simulate-delivery:
+    runs-on: ubuntu-latest
+
+    steps:
+    # Step 1: Pull down the production code from main
+    - name: Get Code From GitHub
+      uses: actions/checkout@v4
+
+    # Step 2: Set up the production .NET 10 environment
+    - name: Install .NET Setup
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '10.0.x'
+
+    # Step 3: Package the API (Strips out debugging files, optimizes code)
+    - name: Publish API Project for Production
+      run: dotnet publish MisticVault.Api/MisticVault.Api.csproj --configuration Release --output ./publish-package
+
+    # Step 4: Zip and save the deployment bundle directly to GitHub storage
+    - name: Archive Production Package
+      uses: actions/upload-artifact@v4
+      with:
+        name: MisticVault-Production-Package
+        path: ./publish-package
