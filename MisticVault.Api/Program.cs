@@ -29,7 +29,7 @@ builder.Services.AddScoped<MisticVault.Application.Todo.Interfaces.ITodoService,
 // Register AutoMapper profiles from Application assembly
 builder.Services.AddAutoMapper(typeof(MisticVault.Application.Todo.Mappings.TodoProfile).Assembly);
 
-
+// Add Swagger/OpenAPI support
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
