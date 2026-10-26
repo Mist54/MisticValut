@@ -31,7 +31,6 @@ builder.Services.AddAutoMapper(typeof(MisticVault.Application.Todo.Mappings.Todo
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 // Development-time OpenAPI generation was disabled to avoid source-generator incompatibilities
 // with the installed OpenAPI package versions.
 
